@@ -1,0 +1,36 @@
+JSX: 
+JSX n’est rien d’autre qu’une expression
+
+Cette approche est acceptable pour se former ou réaliser des démos simples. 
+
+Cependant, elle va ralentir l’affichage de votre site, elle n’est donc pas adaptée pour la production.
+
+Au lieu de séparer artificiellement les technologies en mettant le balisage et la logique 
+dans des fichiers séparés, React sépare les préoccupations via des unités faiblement couplées
+appelées « composants », qui contiennent les deux.
+
+Dans la mesure où JSX est plus proche de JavaScript que de HTML, React DOM utilise la casse camelCase 
+comme convention de nommage des propriétés, au lieu des noms d’attributs HTML.
+Par exemple, class devient className en JSX, et tabindex devient tabIndex.
+
+Ces objets sont appelés des « éléments React ». Vous pouvez les considérer comme des descriptions de
+ce que vous voulez voir sur l’écran. React lit ces objets et les utilise pour construire le DOM
+et le tenir à jour.
+
+Les éléments React sont immuables. Une fois votre élément créé, vous ne pouvez plus modifier ses enfants 
+ou ses attributs. Un élément est comme une image d’un film à un instant T : il représente l’interface 
+utilisateur à un point précis dans le temps.
+
+React DOM compare l’élément et ses enfants avec la version précédente, et applique uniquement 
+les mises à jour DOM nécessaires pour refléter l’état voulu.
+
+Les composants vous permettent de découper l’interface utilisateur en éléments indépendants 
+et réutilisables, vous permettant ainsi de considérer chaque élément de manière isolée.
+
+
+
+
+
+
+
+
