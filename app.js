@@ -104,7 +104,7 @@ class Incrementer extends React.Component{
     // props contient l'ensemble des params de notre component 
     constructor(props){
         super(props)
-        this.state = {n : props.start, s: props.step, stateName: "start"} // un etat va nous permettre de conserver une valeur
+        this.state = {n : props.start, s: props.step} // un etat va nous permettre de conserver une valeur
         this.timer = null
         console.log(props)
     }
@@ -130,7 +130,7 @@ class Incrementer extends React.Component{
     render(){
         return <div>
             Incrementer : {this.state.n} 
-            <button onClick={this.pause}>{stateName}</button>
+            <button onClick={this.pause}>Pause</button>
         </div>
     }
 
@@ -140,7 +140,7 @@ class ManualIncrementer extends React.Component{
 
     constructor(props){
         super(props)
-        this.state = {n: 0}
+        this.state = {n: 0} 
     }
 
     incrementer(){
@@ -149,7 +149,7 @@ class ManualIncrementer extends React.Component{
 
     render(){
         return <div>
-            Valeur {this.state.n} <button onClick={incrementer.bind(this)}>Incrementer</button>
+            Valeur {this.state.n} <button onClick={this.incrementer.bind(this)}>Incrementer</button>
         </div>
     }
 

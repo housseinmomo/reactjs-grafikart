@@ -27,6 +27,41 @@ les mises à jour DOM nécessaires pour refléter l’état voulu.
 Les composants vous permettent de découper l’interface utilisateur en éléments indépendants 
 et réutilisables, vous permettant ainsi de considérer chaque élément de manière isolée.
 
+Conceptuellement, les composants sont comme des fonctions JavaScript. Ils acceptent des entrées 
+quelconques (appelées « props ») et renvoient des éléments React décrivant ce qui doit apparaître 
+à l’écran.
+
+Un composant peut etre definie comme etant :
+    - une fonction (le moyen la plus simple) : elle accepte un seul argument « props » 
+    - une classe
+
+Des éléments peuvent également représenter des composants définis par l’utilisateur :
+    - const element = <Wellcome name="mugen" />
+
+Lorsque React rencontre un élément représentant un composant défini par l’utilisateur, il transmet 
+les attributs JSX et les enfants à ce composant sous la forme d’un objet unique. Nous appelons 
+cet objet « props ».
+
+React considère les composants commençant par des lettres minuscules comme des balises DOM
+
+Les props sont en lecture seule :
+Que vous déclariez un composant sous forme de fonction ou de classe, il ne doit jamais modifier
+ses propres props. 
+
+Ces fonctions sont dites « pures » parce qu’elles ne tentent pas de modifier leurs entrées et 
+retournent toujours le même résultat pour les mêmes entrées.
+
+NB: Tout composant React doit agir comme une fonction pure vis-à-vis de ses props.
+
+
+
+
+
+
+
+
+
+
 
 
 
