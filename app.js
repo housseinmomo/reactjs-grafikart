@@ -124,7 +124,7 @@ class Incrementer extends React.Component{
 
     pause(){
         this.componentWillUnmount()
-        this.state.stateName = "Pause"
+        // this.state.stateName = "Pause"
     }
 
     render(){
@@ -159,16 +159,17 @@ class ManualIncrementer extends React.Component{
 
 function Home(){
 
-    //les composant sont reutilisable
+    //Les composant sont reutilisable
+    // On peut egalement les imbriquer 
     return <div>
-        <Wellcome name="sakura" />
-        <Wellcome name="hinata" />
-        <Wellcome name="tsunade" />
-        <Clock />
-        <Incrementer start={0} step={10}/>
-        <Incrementer start={100} step={10}/>
-        <ManualIncrementer />
-    </div>
+                <Wellcome name="sakura" />
+                <Wellcome name="hinata" />
+                <Wellcome name="tsunade" />
+                <Clock />
+                <Incrementer start={0} step={10}/>
+                <Incrementer start={100} step={10}/>
+                <ManualIncrementer />
+            </div>
 }
 
 const wellcome = <Wellcome name="Mugen">DBZ, c'est bien</Wellcome>
