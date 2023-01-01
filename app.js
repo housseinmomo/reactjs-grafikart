@@ -137,6 +137,88 @@ function render(){
 render()
 
 
+// ----------------------- Evenement --------------------
+
+class Compteur extends React.Component{
+
+    constructor(props){
+        super(props)
+        this.state = {n: props.start, timer: null}
+    }
+
+    componentDidMount(){
+        this.play()
+    }
+
+    componentWillUnmount(){
+        window.clearInterval(this.state.timer)
+    }
+
+    incrementer(){
+        this.setState(
+            (state, props) => ({n: state.n + props.step})
+        )
+    }
+
+    pause(event){
+        console.log("pause...")
+        window.clearInterval(this.state.timer)
+        this.setState({timer: null})
+    }
+
+    play(event){
+        console.log("play...")
+        this.setState({
+            timer: window.setInterval(this.incrementer.bind(this), 1000)
+        })
+    }
+
+    toggle(){
+        return this.state.timer ? this.pause() : this.play()
+    }
+
+    label(){
+        return this.state.timer ? "pause" : "lecture"
+    }
+
+    reset(){
+        console.log("reset...")
+        this.pause()
+        this.setState((state, props) => ({n: props.start}))
+        this.play()
+    }
+
+    render(){
+        return <div> <br/>
+                    Valeur : {this.state.n} 
+                    <button onClick={this.toggle.bind(this)}>{this.label()}</button>
+                    <button onClick={this.reset.bind(this)}>reset</button>
+                </div>
+    }
+}
+
+ReactDOM.render(<Compteur start={0} step={1} />, document.getElementById("compteur"))
+
+
+class ManualIncrementer extends React.Component{
+
+    constructor(props){
+        super(props)
+        this.state = {n : 0}
+    }
+
+    incrementer(){
+        this.setState(
+            (state, props) => ({n : state.n + 1 })
+        )
+    }
+
+    render(){
+        return  <div> <br/>Valeur {this.state.n} <button onClick={this.incrementer.bind(this)}>incrementer</button> </div> 
+    }
+}
+
+ReactDOM.render(<ManualIncrementer />, document.getElementById("incremental"))
 
 // // un composant n'est rien d'autre qu'une fonction
 
