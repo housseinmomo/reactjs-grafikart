@@ -1,3 +1,56 @@
+React est une bibliothèque JavaScript
+JSX est une extension syntaxique de JavaScript
+React ne vous oblige pas à utiliser JSX, mais la plupart des gens 
+y trouvent une aide visuelle quand ils manipulent l’interface utilisateur dans le code JavaScript
+JSX empêche les attaques d’injection
+
+Tout est converti en chaîne de caractères avant de produire le rendu. 
+Ça aide à éviter les attaques XSS (cross-site-scripting).
+
+Ces objets sont appelés des « éléments React ». Vous pouvez les considérer comme des descriptions de ce
+que vous voulez voir sur l’écran. React lit ces objets et les utilise pour construire le DOM et 
+le tenir à jour.
+Les éléments représentent la base des composants
+Les éléments React sont immuables. Une fois votre élément créé, vous ne pouvez plus modifier ses enfants
+ou ses attributs. Un élément est comme une image d’un film à un instant T : 
+il représente l’interface utilisateur à un point précis dans le temps.
+
+
+React DOM se charge de mettre à jour le DOM afin qu’il corresponde aux éléments React.
+React met à jour le strict nécessaire
+React DOM compare l’élément et ses enfants avec la version précédente, et applique uniquement 
+les mises à jour DOM nécessaires pour refléter l’état voulu.
+
+Conceptuellement, les composants sont comme des fonctions JavaScript. Ils acceptent des entrées 
+quelconques (appelées « props ») et renvoient des éléments React décrivant ce qui doit 
+apparaître à l’écran.
+
+-> Fonctions composants et composants à base de classes
+
+Lorsque React rencontre un élément représentant un composant défini par l’utilisateur, 
+il transmet les attributs JSX et les enfants à ce composant sous la forme d’un objet unique. 
+Nous appelons cet objet « props ».
+
+NB: React considère les composants commençant par des lettres minuscules comme des balises DOM.
+NB: Les props sont en lecture seule
+NB: Ces fonctions sont dites « pures » parce qu’elles ne tentent pas de modifier leurs entrées
+NB: La fonction est impure car elle modifie sa propre entrée 
+
+TNB: Tout composant React doit agir comme une fonction pure vis-à-vis de ses props.
+
+
+Exemple: 
+<Wellcome name="mugen" >Abdoulfatah</Wellcome>
+props = {name: "mugen", children: "Abdoulfatah"}
+
+
+
+
+
+
+
+JSX
+
 JSX: 
 JSX n’est rien d’autre qu’une expression
 
