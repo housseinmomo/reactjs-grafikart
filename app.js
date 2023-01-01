@@ -36,17 +36,56 @@ const elementCEF = React.createElement("h3", {className: "greeting"}, 'Hello ave
 ReactDOM.render(elementJSX, document.getElementById("jsx"))
 ReactDOM.render(elementCEF, document.getElementById("cef"))
 
-function getDateNow(){
+class Clock extends React.Component{
 
-    const element = <div>
-                        <h3 className="heure">Heure : {new Date().toLocaleTimeString()}</h3>
-                    </div>
-    ReactDOM.render(element, document.getElementById("heure"))
+    constructor(props){
+        // Les composants à base de classe devraient toujours appeler le constructeur de base avec props.
+        super(props)
+        // etat locale de la classe
+        this.state = {date: new Date()}
+    }
+
+    // méthodes de cycle de vie du composant : montage / demontage 
+
+    // Cette methode est exécutée après que la sortie du composant a été injectée dans le DOM.
+    componentDidMount() {
+        // on appelle la fonction qui  permet de modifier la date a chaque seconde
+        // Les fonctions fléchées sont souvent anonymes et ne sont pas destinées à être utilisées pour déclarer des méthodes.
+        this.timerID = setInterval(() => this.tick(), 1000)
+    }
+  
+    componentWillUnmount() {
+        clearInterval(this.timerID)
+    }
+
+    tick(){
+        // on actualise la date qui se trouve au niveau de l'etat locale (state)
+        // On va utiliser cette methode pour modifier nos etats locaux
+        this.setState({
+            date: new Date()
+        });
+    }
+
+
+    // La méthode render sera appelée à chaque fois qu’une mise à jour aura lieu
+    // tant que l’on exploite le rendu de <Clock /> dans le même nœud DOM, 
+    //une seule instance de la classe clock sera utilisée.
+    render(){
+        return (
+            <div>
+                <h3 className="heure">Heure : {this.state.date.toLocaleTimeString()}</h3>
+            </div>
+        );
+    }
 }
+
+ReactDOM.render( <Clock />, document.getElementById("heure"))
+
+
 
 /* Même si nous créons à chaque seconde un élément décrivant l’arborescence complète de l’interface 
 utilisateur, seul le nœud texte dont le contenu a été modifié est mis à jour par React DOM. */
-setInterval(getDateNow, 1000);
+
 
 function Wellcome(props){
     return "Bonjour " + props.name;

@@ -35,13 +35,18 @@ NB: React considère les composants commençant par des lettres minuscules comme
 NB: Les props sont en lecture seule
 NB: Ces fonctions sont dites « pures » parce qu’elles ne tentent pas de modifier leurs entrées
 NB: La fonction est impure car elle modifie sa propre entrée 
-
 TNB: Tout composant React doit agir comme une fonction pure vis-à-vis de ses props.
-
 
 Exemple: 
 <Wellcome name="mugen" >Abdoulfatah</Wellcome>
 props = {name: "mugen", children: "Abdoulfatah"}
+
+
+Etat local & cycle de vie :
+
+-> L’état local est similaire aux props, mais il est privé et complètement contrôlé par le composant.
+-> C’est pourquoi on dit souvent que l’état est local ou encapsulé. Il est impossible d’y accéder depuis un autre composant.
+
 
 
 
