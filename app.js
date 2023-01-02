@@ -220,6 +220,46 @@ class ManualIncrementer extends React.Component{
 
 ReactDOM.render(<ManualIncrementer />, document.getElementById("incremental"))
 
+
+// ----------------------- Formulaire --------------------
+
+class Formulaire extends React.Component{
+    
+    constructor(props){
+        super(props)
+        this.state = {nom: "", prenom: "", newsletter: false}
+    }
+
+    handleChange (event) {   
+        const name = event.target.name 
+        const type = event.target.type
+        const value = type === "checkbox" ? event.target.checked : event.target.value
+        this.setState({[name]: value})
+    }
+
+
+
+    render () {
+        return <div>
+            <label htmlFor="nom">Nom</label> <br />
+            <input id="nom" type="text" name="nom" value={this.state.nom} onChange={this.handleChange.bind(this)} /> <br />
+           
+            <label htmlFor="prenom">Prenom</label> <br />
+            <input id="prenom" type="text" name="prenom" value={this.state.prenom} onChange={this.handleChange.bind(this)} /> <br />
+            
+            <label htmlFor="newsletter">S'abonner a la Newsletter</label>
+            <input id="newsletter" type="checkbox" name="newsletter" value={this.state.newsletter} onChange={this.handleChange.bind(this)} /> <br />
+
+            {JSON.stringify(this.state)}
+
+        </div>
+    }
+}
+
+
+ReactDOM.render(<Formulaire/>, document.getElementById("form"))
+
+
 // // un composant n'est rien d'autre qu'une fonction
 
 // // composant wellcome va nous retourner un element
