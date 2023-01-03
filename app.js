@@ -223,6 +223,35 @@ ReactDOM.render(<ManualIncrementer />, document.getElementById("incremental"))
 
 // ----------------------- Formulaire --------------------
 
+class Field extends React.Component{
+
+    render () {
+
+        const name = this.props.name 
+        const value = this.props.value
+        const onChange = this.props.onChange
+        const children = this.props.children 
+
+        return <div className="form-group">
+            <label htmlFor={name}>{children}</label>
+            <input type="text" id={name} name={name} value={value} onChange={onChange} className="form-control"></input>
+        </div>
+
+    }
+}
+
+class Checkbox extends React.Component{
+
+    render () {
+        const {name, value, onChange, children} = this.props
+        
+        return <div className="form-check">
+            <input type="checkbox" id={name} name={name} checked={value} onChange={onChange} className="form-check-input" />
+            <label htmlFor={name} className="form-check-label">{children}</label>
+        </div>
+    }
+}
+
 class Formulaire extends React.Component{
     
     constructor(props){
@@ -234,24 +263,18 @@ class Formulaire extends React.Component{
         const name = event.target.name 
         const type = event.target.type
         const value = type === "checkbox" ? event.target.checked : event.target.value
+        console.log(event.target)
         this.setState({[name]: value})
     }
 
 
 
     render () {
-        return <div>
-            <label htmlFor="nom">Nom</label> <br />
-            <input id="nom" type="text" name="nom" value={this.state.nom} onChange={this.handleChange.bind(this)} /> <br />
-           
-            <label htmlFor="prenom">Prenom</label> <br />
-            <input id="prenom" type="text" name="prenom" value={this.state.prenom} onChange={this.handleChange.bind(this)} /> <br />
-            
-            <label htmlFor="newsletter">S'abonner a la Newsletter</label>
-            <input id="newsletter" type="checkbox" name="newsletter" value={this.state.newsletter} onChange={this.handleChange.bind(this)} /> <br />
-
+        return <div className="container">
+            <Field name="nom" value={this.state.nom} onChange={this.handleChange.bind(this)}>Nom</Field>
+            <Field name="prenom" value={this.state.prenom} onChange={this.handleChange.bind(this)}>Prenom</Field>
+            <Checkbox name="newsletter" value={this.state.newsletter} onChange={this.handleChange.bind(this)}>S'abonner a la newsletter</Checkbox>
             {JSON.stringify(this.state)}
-
         </div>
     }
 }
