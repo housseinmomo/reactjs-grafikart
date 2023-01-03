@@ -263,24 +263,36 @@ class Formulaire extends React.Component{
         const name = event.target.name 
         const type = event.target.type
         const value = type === "checkbox" ? event.target.checked : event.target.value
-        console.log(event.target)
         this.setState({[name]: value})
+    }
+
+    handleSubmit (event) {
+        event.preventDefault()
+        const data = JSON.stringify(this.state)
+        console.log(data)
+        this.setState({nom: "", prenom: "", newsletter: false})
     }
 
 
 
     render () {
-        return <div className="container">
+        return <form className="container" onSubmit={this.handleSubmit.bind(this)}>
+            <h3>Formulaire d'abonnement</h3>
             <Field name="nom" value={this.state.nom} onChange={this.handleChange.bind(this)}>Nom</Field>
             <Field name="prenom" value={this.state.prenom} onChange={this.handleChange.bind(this)}>Prenom</Field>
             <Checkbox name="newsletter" value={this.state.newsletter} onChange={this.handleChange.bind(this)}>S'abonner a la newsletter</Checkbox>
+            <div className="form-group">
+                <button type="submit" className="btn btn-primary">Envoyer</button>
+            </div>
             {JSON.stringify(this.state)}
-        </div>
+        </form>
     }
 }
 
-
 ReactDOM.render(<Formulaire/>, document.getElementById("form"))
+
+// ----------------------- TP1 React --------------------
+
 
 
 // // un composant n'est rien d'autre qu'une fonction

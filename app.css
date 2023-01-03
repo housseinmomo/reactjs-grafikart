@@ -5,3 +5,11 @@
 .heure{
     color: brown;
 }
+
+form {
+    border-style: double;
+    padding: 5px;
+    margin: 10px;
+    border-color: darkblue;
+}
+
