@@ -293,6 +293,43 @@ ReactDOM.render(<Formulaire/>, document.getElementById("form"))
 
 // ----------------------- TP1 React --------------------
 
+function BoillingVerdict({celsus}){
+    if(celsus >= 100){
+        return <div className="alert alert-success"><b>L'eau bout</b></div>
+    }
+    return <div className="alert alert-info"><b>L'eau ne bout pas</b></div>
+}
+
+class Calculator extends React.Component{
+
+    constructor(props) {
+        super(props)
+        this.state = {temperature: ''} 
+    }
+
+    handleChange(event) {
+        const temp = event.target
+        console.log(temp)
+        this.setState({temperature: temp})
+    }
+
+    render() {
+        return <form>
+                    <div className="form-group">
+                        <label htmlFor="celsus">Temperature (en Celsus) </label>
+                        <input type="number" id="celsus" name="celsus" value={this.state.temperature} className="form-control" onChange={this.handleChange.bind(this)}/>
+                    </div>
+                    <BoillingVerdict celsus={parseFloat(this.state.temperature)} />
+                </form>
+    }
+
+
+}
+
+
+ReactDOM.render(<Calculator />, document.getElementById("tp1-calculator"))
+ReactDOM.render(<BoillingVerdict celsus={110} />, document.getElementById("tp1-info"))
+
 
 
 // // un composant n'est rien d'autre qu'une fonction
