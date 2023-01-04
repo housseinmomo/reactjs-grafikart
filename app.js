@@ -307,12 +307,11 @@ class TemperatureInput extends React.Component{
 
     constructor(props){
         super(props)
-        this.state = {temperature: ''}
+        this.state = {}
     }
 
     handleChange(event) {
-        const temp = event.target.value
-        this.setState({temperature: temp})
+        this.props.onTemperatureChange(event.target.value)
     }
 
     render() {
@@ -320,7 +319,7 @@ class TemperatureInput extends React.Component{
         const scaleName = scaleNames[this.props.scale]
         return <div className="form-group">
             <label htmlFor={name}>Temperature en ({scaleName}) </label>
-            <input type="number" id={name} name={name} value={this.state.temperature} className="form-control" onChange={this.handleChange.bind(this)}/>
+            <input type="number" id={name} name={name} value={this.props.temperature} className="form-control" onChange={this.handleChange.bind(this)}/>
         </div>
     }
 }
@@ -336,20 +335,29 @@ class Calculator extends React.Component{
 
     constructor(props) {
         super(props)
-        this.state = {temperature: ''} 
+        this.state = {temperature: 20, scale: "c"} 
     }
 
-    handleChange(event) {
-        const temp = event.target.value
-        this.setState({temperature: temp})
+    // cette fonction va nous permettre de changer l'etat de la temperature
+    handleCelsusChange(temp) {
+        this.setState({temperature: temp, scale: "c"})
+    }
+
+    handleFahrenheitChange (temp) {
+        this.setState({temperature: temp, scale: "f"})
     }
 
     render() {
         const temperature = this.state.temperature
+        const scale = this.state.scale
+
+        const celsus = scale === "c" ? temperature : toCelsus(temperature)
+        const fahrenheit = scale === "f" ? temperature : toFahrenheit(celsus)
+
         return <form>
-                    <TemperatureInput scale='c' temperature={temperature} />
-                    <TemperatureInput scale='f' temperature={temperature}/>
-                    <BoillingVerdict celsus={parseFloat(this.state.temperature)} />
+                    <TemperatureInput scale='c' temperature={celsus} onTemperatureChange={this.handleCelsusChange.bind(this)}/>
+                    <TemperatureInput scale='f' temperature={fahrenheit} onTemperatureChange={this.handleFahrenheitChange.bind(this)} />
+                    <BoillingVerdict celsus={celsus} />
                 </form>
     }
 }
