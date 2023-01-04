@@ -223,6 +223,14 @@ ReactDOM.render(<ManualIncrementer />, document.getElementById("incremental"))
 
 // ----------------------- Formulaire --------------------
 
+function toCelsus(fahrenheit) {
+    return (fahrenheit - 32) * 5 / 9
+}
+
+function toFahrenheit(celsus) {
+    return (celsus * 9 / 5) + 32
+}
+
 class Field extends React.Component{
 
     render () {
@@ -293,6 +301,30 @@ ReactDOM.render(<Formulaire/>, document.getElementById("form"))
 
 // ----------------------- TP1 React --------------------
 
+const scaleNames = { c: "Celsus", f: "Fahrenheit"}
+
+class TemperatureInput extends React.Component{
+
+    constructor(props){
+        super(props)
+        this.state = {temperature: ''}
+    }
+
+    handleChange(event) {
+        const temp = event.target.value
+        this.setState({temperature: temp})
+    }
+
+    render() {
+        const name = "scale" + this.props.scale
+        const scaleName = scaleNames[this.props.scale]
+        return <div className="form-group">
+            <label htmlFor={name}>Temperature en ({scaleName}) </label>
+            <input type="number" id={name} name={name} value={this.state.temperature} className="form-control" onChange={this.handleChange.bind(this)}/>
+        </div>
+    }
+}
+
 function BoillingVerdict({celsus}){
     if(celsus >= 100){
         return <div className="alert alert-success"><b>L'eau bout</b></div>
@@ -308,27 +340,22 @@ class Calculator extends React.Component{
     }
 
     handleChange(event) {
-        const temp = event.target
-        console.log(temp)
+        const temp = event.target.value
         this.setState({temperature: temp})
     }
 
     render() {
+        const temperature = this.state.temperature
         return <form>
-                    <div className="form-group">
-                        <label htmlFor="celsus">Temperature (en Celsus) </label>
-                        <input type="number" id="celsus" name="celsus" value={this.state.temperature} className="form-control" onChange={this.handleChange.bind(this)}/>
-                    </div>
+                    <TemperatureInput scale='c' temperature={temperature} />
+                    <TemperatureInput scale='f' temperature={temperature}/>
                     <BoillingVerdict celsus={parseFloat(this.state.temperature)} />
                 </form>
     }
-
-
 }
 
 
-ReactDOM.render(<Calculator />, document.getElementById("tp1-calculator"))
-ReactDOM.render(<BoillingVerdict celsus={110} />, document.getElementById("tp1-info"))
+ReactDOM.render(<Calculator />, document.getElementById("tp1"))
 
 
 
