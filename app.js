@@ -334,14 +334,16 @@ function BoillingVerdict({celsus}){
 function tryConvert(temperature, convert){
     const value = parseFloat(temperature)
     if(Number.isNaN(value)){
-        return ''
+        return 0;
     }
-    return (Math.round(convert(value) * 100) / 100).toString()
+    const output = convert(value)
+
+    return (Math.round(output * 100) / 100).toString()
 }
 
-function Button({type, children}){
-    const typeButton = "btn btn-"+type
-    return <Button className={typeButton}>{children}</Button>
+function Button({typeBtn, children}){
+    const typeButton = "btn btn-" +typeBtn
+    return <button className={typeButton}>{children}</button>
 }
 
 
@@ -366,14 +368,14 @@ class Calculator extends React.Component{
         const scale = this.state.scale
 
         // Avant de faire les conversion, on s'assure que les donnees sont bien des nombres
-        const celsus = scale === "c" ? temperature : tryConvert(temperature, toCelsus)
-        const fahrenheit = scale === "f" ? temperature : tryConvert(temperature, toFahrenheit)
+        const celsus = scale === "c" ? temperature : tryConvert(temperature, toCelsus) // toCelsus(temperature)
+        const fahrenheit = scale === "f" ? temperature : tryConvert(temperature, toFahrenheit) // toFahrenheit(temperature)
 
         return <form>
                     <TemperatureInput scale='c' temperature={celsus} onTemperatureChange={this.handleCelsusChange.bind(this)}/>
                     <TemperatureInput scale='f' temperature={fahrenheit} onTemperatureChange={this.handleFahrenheitChange.bind(this)} />
                     <BoillingVerdict celsus={celsus} />
-                    <Button type="primary">Envoyer</Button>
+                    <Button typeBtn="primary">Envoyer</Button>
                 </form>
     }
 }
