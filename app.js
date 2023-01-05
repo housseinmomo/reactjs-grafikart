@@ -404,7 +404,129 @@ function Column2({left, right}){
 }
 
 
+// ----------------------- TP2 React --------------------
 
+const PRODUCTS = [
+    {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
+    {category: "Sporting Goods", price: "$9.99", stocked: true, name: "Baseball"},
+    {category: "Sporting Goods", price: "$29.99", stocked: false, name: "Basketball"},
+    {category: "Electronics", price: "$99.99", stocked: true, name: "iPod Touch"},
+    {category: "Electronics", price: "$399.99", stocked: false, name: "iPhone 5"},
+    {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
+  ];
+
+function ProductCategoryRow ({category}) {
+    return <tr>
+        <th colSpan="2">{category}</th>
+    </tr>
+}
+
+function ProductRow({product}) {
+    const name = product.stocked ? product.name : <span class="text-danger">{product.name}</span>
+    return <tr>
+        <td>{name}</td>
+        <td>{product.price}</td>
+    </tr>
+}
+
+function ProductTable ({products, inStockOnly, filterText}) {
+
+    const rows = []
+    let lastCategory = null 
+
+    products.forEach(product => {
+        if(
+           (inStockOnly == true && product.stocked == false)
+           || (product.name.indexOf(filterText) == -1)
+        ){return}
+
+        if(lastCategory !== product.category){
+            lastCategory = product.category
+            rows.push(<ProductCategoryRow key={lastCategory} category={lastCategory}/>)
+        }
+        rows.push(<ProductRow key={product.name} product={product}/>)
+    });
+
+    return <table className="table table-stripped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prix</th>
+            </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+    </table>
+}
+
+class SearchBar extends React.Component {
+
+    constructor(props){
+        super(props)
+    }
+
+   TextChange(event){
+        const value = event.target.value 
+        this.props.onFilterTextChange(value)
+    }
+
+    CheckChange(event){
+        const value = event.target.checked
+        this.props.onInStockChange(value)
+    }
+
+    render () {
+        return <div>
+            <div className="form-group">
+                <input type="text" className="form-control" placeholder="Rechercher" onChange={this.TextChange.bind(this)} value={this.props.filterText}/>
+            </div>
+            <div className="form-check">
+                <input type="checkbox" className="form-check-input" id="stock" checked={this.props.inStockOnly} onClick={this.CheckChange.bind(this)} />
+                <label htmlFor="stock" className="form-check-label">Produit en stock seulement</label>
+            </div>
+        </div>
+    }
+}
+
+class FilterableProductTable extends React.Component{
+
+    constructor(props){
+        super(props)
+        this.state = {
+            filterText: "",
+            inStockOnly: false
+        }
+    }
+
+    // Modifier les etats du composants 
+
+    handleFilterTextChange(filterText) {
+        this.setState({filterText: filterText})
+    }
+
+    handleInStockOnly(inStockOnly) {
+        this.setState({inStockOnly: inStockOnly})
+    }
+
+    render () {
+        const products = this.props.products
+        return <React.Fragment>
+                    {JSON.stringify(this.state)}
+                    <SearchBar 
+                        filterText={this.state.filterText}
+                        inStockOnly={this.state.inStockOnly}
+                        onFilterTextChange={this.handleFilterTextChange.bind(this)}
+                        onInStockChange={this.handleInStockOnly.bind(this)}
+                    />
+                    <ProductTable 
+                        products={products} 
+                        filterText={this.state.filterText}
+                        inStockOnly={this.state.inStockOnly}
+                    />
+                </React.Fragment>
+    }
+}
+
+ReactDOM.render(<FilterableProductTable products={PRODUCTS}/> , document.getElementById("tp2"))
 
 // // un composant n'est rien d'autre qu'une fonction
 
