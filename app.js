@@ -331,6 +331,20 @@ function BoillingVerdict({celsus}){
     return <div className="alert alert-info"><b>L'eau ne bout pas</b></div>
 }
 
+function tryConvert(temperature, convert){
+    const value = parseFloat(temperature)
+    if(Number.isNaN(value)){
+        return ''
+    }
+    return (Math.round(convert(value) * 100) / 100).toString()
+}
+
+function Button({type, children}){
+    const typeButton = "btn btn-"+type
+    return <Button className={typeButton}>{children}</Button>
+}
+
+
 class Calculator extends React.Component{
 
     constructor(props) {
@@ -351,19 +365,24 @@ class Calculator extends React.Component{
         const temperature = this.state.temperature
         const scale = this.state.scale
 
-        const celsus = scale === "c" ? temperature : toCelsus(temperature)
-        const fahrenheit = scale === "f" ? temperature : toFahrenheit(celsus)
+        // Avant de faire les conversion, on s'assure que les donnees sont bien des nombres
+        const celsus = scale === "c" ? temperature : tryConvert(temperature, toCelsus)
+        const fahrenheit = scale === "f" ? temperature : tryConvert(temperature, toFahrenheit)
 
         return <form>
                     <TemperatureInput scale='c' temperature={celsus} onTemperatureChange={this.handleCelsusChange.bind(this)}/>
                     <TemperatureInput scale='f' temperature={fahrenheit} onTemperatureChange={this.handleFahrenheitChange.bind(this)} />
                     <BoillingVerdict celsus={celsus} />
+                    <Button type="primary">Envoyer</Button>
                 </form>
     }
 }
 
-
 ReactDOM.render(<Calculator />, document.getElementById("tp1"))
+
+// ----------------------- La composition --------------------
+
+
 
 
 
