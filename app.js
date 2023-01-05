@@ -372,10 +372,12 @@ class Calculator extends React.Component{
         const fahrenheit = scale === "f" ? temperature : tryConvert(temperature, toFahrenheit) // toFahrenheit(temperature)
 
         return <form>
-                    <TemperatureInput scale='c' temperature={celsus} onTemperatureChange={this.handleCelsusChange.bind(this)}/>
-                    <TemperatureInput scale='f' temperature={fahrenheit} onTemperatureChange={this.handleFahrenheitChange.bind(this)} />
+                    <Column2 
+                        left={<TemperatureInput scale='c' temperature={celsus} onTemperatureChange={this.handleCelsusChange.bind(this)}/>}
+                        right={<TemperatureInput scale='f' temperature={fahrenheit} onTemperatureChange={this.handleFahrenheitChange.bind(this)} />}
+                    />            
                     <BoillingVerdict celsus={celsus} />
-                    <Button typeBtn="primary">Envoyer</Button>
+                    <PrimaryButton>Envoyer</PrimaryButton>
                 </form>
     }
 }
@@ -384,6 +386,22 @@ ReactDOM.render(<Calculator />, document.getElementById("tp1"))
 
 // ----------------------- La composition --------------------
 
+// Avec react, on peux utiliser la composition qui est une alternatif a l'heritage
+
+function PrimaryButton({children}){
+    return <Button typeBtn="primary">{children}</Button>
+}
+
+function SecondaryButton({children}){
+    return <Button typeBtn="secondary">{children}</Button>
+}
+
+function Column2({left, right}){
+    return <div className="row">
+        <div className="col-md-6">{left}</div>
+        <div className="col-md-6">{right}</div>
+    </div>
+}
 
 
 
