@@ -528,6 +528,10 @@ class FilterableProductTable extends React.Component{
 
 ReactDOM.render(<FilterableProductTable products={PRODUCTS}/> , document.getElementById("tp2"))
 
+// ------------------------- Composant pur -----------------------------
+
+// Un composant pur n'est retourner que si son etat ou ses attributs changent 
+
 // // un composant n'est rien d'autre qu'une fonction
 
 // // composant wellcome va nous retourner un element
