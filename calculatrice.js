@@ -3,7 +3,7 @@
 
 function ShowResult () {
     return <div className="form-group">
-        <input type="text" name="result" placeholder="taper..."className="form-control"/>
+        <input type="text" name="result" placeholder="taper..." className="form-control"/>
     </div>
 }
 
@@ -15,7 +15,7 @@ function ShowNumberAndSymbol () {
             <button>9</button>
             <button>x</button>
         </div>
-        <div className="col-md-3">
+        <div className="col-md-4">
             <button>4</button>
             <button>5</button>
             <button>6</button>
@@ -26,6 +26,12 @@ function ShowNumberAndSymbol () {
             <button>2</button>
             <button>3</button>
             <button>+</button>
+        </div>
+        <div className="col-md-3">
+            <button>clear</button>
+            <button>0</button>
+            <button>=</button>
+            <button>/</button>
         </div>
     </div>
 } 
