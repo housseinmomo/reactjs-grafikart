@@ -568,3 +568,48 @@ class Home extends React.Component{
 }
 
 ReactDOM.render(<Home />, document.getElementById("home"))
+
+
+// -------------- Les Hooks ------------------------------
+
+// hook personnaliser 
+function useIncrement(initial, step){
+    const [count, setCount] = React.useState(initial)
+    const increment = () => {
+        setCount(count => count + step)
+    }
+    return [count, increment]
+}
+
+function useCreatePerson(firstName, lastName){
+    const [person, setPerson] = React.useState({})
+
+    const createPerson = () => {
+        setPerson(person => {
+            return {...person, firstName: firstName, lastName: lastName}
+        } )
+    }
+
+    return [person, createPerson]
+}
+
+function CompteurHook () {
+
+    // Mes Hooks vont me permettre de gerer les etat au sein des composant fonction
+    const [person, createPerson] = useCreatePerson("mugen", "katakuri")
+    const [count, increment1] = useIncrement(0, 1)
+    const [count2, increment2] = useIncrement(0, 2)
+    
+
+
+
+    return <div className="container">
+        <button onClick={increment1}>Nombre : {count}</button>
+        <button onClick={increment2}>Nombre : {count2}</button>
+        
+        <div>{JSON.stringify(person)}</div>
+        <button onClick={createPerson}>Create Person</button>
+    </div>
+}
+
+ReactDOM.render(<CompteurHook />, document.getElementById("hookCompteur"))

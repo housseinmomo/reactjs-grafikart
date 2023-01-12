@@ -112,6 +112,9 @@ retournent toujours le même résultat pour les mêmes entrées.
 NB: Tout composant React doit agir comme une fonction pure vis-à-vis de ses props.
 
 
+Les Hook sont recent et on ete introduit a la version 16 de react 
+Ils permettent d'ajouter certaines fonctionnalites a nos composant definie sous forme de fonction
+Les Hooks sont une serie de fonctions(qui commence par use) qui nous permettre d'utiliser les nouvelles fonctionnalites lier a l'etat et au cycle de vie de notre composant 
 
 
 
