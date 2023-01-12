@@ -599,17 +599,53 @@ function CompteurHook () {
     const [person, createPerson] = useCreatePerson("mugen", "katakuri")
     const [count, increment1] = useIncrement(0, 1)
     const [count2, increment2] = useIncrement(0, 2)
+
+// -------------------Le hook useEffect ----------------------
+// Il est utiliser pour faire des effets associer au changement d'etat 
+// param1 : un fonction qui faire un traitement 
+// param2 : l'etat a surveiller / dependance 
+// A la fin d'un useEffect : il faut creer une fonction qui netoie les elements precedement creer 
+
+    React.useEffect(()=>{
+        document.title = "Compteur " + count
+    }, [count])
+
+    // Ce hook va s'executer des la creation du composant 
+    // Il s'agit de l'equivalent de : componentDidMount
+    React.useEffect(()=>{
+        const timer = window.setInterval(()=>{
+            increment1()
+        },1000)
+        return function () { clearInterval(timer) }
+    }, [])
     
 
-
-
     return <div className="container">
-        <button onClick={increment1}>Nombre : {count}</button>
-        <button onClick={increment2}>Nombre : {count2}</button>
-        
-        <div>{JSON.stringify(person)}</div>
-        <button onClick={createPerson}>Create Person</button>
-    </div>
+                <button onClick={increment1}>Nombre : {count}</button>
+                <button onClick={increment2}>Nombre : {count2}</button>
+                
+                <div>{JSON.stringify(person)}</div>
+                <button onClick={createPerson}>Create Person</button>
+            </div>
 }
 
 ReactDOM.render(<CompteurHook />, document.getElementById("hookCompteur"))
+
+// ------------------- TP3 ----------------------
+
+function useIncrementTP3(initial){
+    const [count, setCount] = React.useState(initial)
+    
+    const increment = function() {
+        setCount(count => count + 1)
+    }
+
+    return [count, increment]
+}
+
+function CompteurTP3(){
+    const [count, increment] = useIncrementTP3(10)
+    return <button onClick={increment}>TP3: {count}</button>
+}
+
+ReactDOM.render(<CompteurTP3/>, document.getElementById("tp3"))
