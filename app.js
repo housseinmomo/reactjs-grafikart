@@ -604,6 +604,7 @@ function CompteurHook () {
 // Il est utiliser pour faire des effets associer au changement d'etat 
 // param1 : un fonction qui faire un traitement 
 // param2 : l'etat a surveiller / dependance 
+// c'est une fonction async qui va s'executer apres le rendu de la page 
 // A la fin d'un useEffect : il faut creer une fonction qui netoie les elements precedement creer 
 
     React.useEffect(()=>{
@@ -810,5 +811,36 @@ function TestUseRef(){
     </div>
 }
 
+
+// ------------------ useLayoutEffect--------------------
+// cette fonction va s'executer avant le rendu de la page 
+// c'est une fonction synchrone qui s'executer a chaque changement d'etat 
+// on peux manipuler le DOM avant le rendu 
+
+function TestUseLayoutEffect() {
+
+    const [count, setCount] = React.useState(0)
+    const buttonRef = React.useRef(null)
+
+    const incrementer = function() {
+        setCount(count => count + 1)
+    }
+
+    React.useLayoutEffect(() => {
+        if(count % 2 === 0){
+            buttonRef.current.style.color = "green"
+        } else {
+            buttonRef.current.style.color = "red"
+        }
+    },[count])
+
+    return <div className="container">
+        <button onClick={incrementer} ref={buttonRef}>Incrementer {count}</button>
+    </div>
+}
+
 ReactDOM.render(<TestUseMemo />, document.getElementById("TestUseMemo"))
 ReactDOM.render(<TestUseRef />, document.getElementById("TestUseRef"))
+ReactDOM.render(<TestUseLayoutEffect />, document.getElementById("TestUseLayoutEffect"))
+
+
