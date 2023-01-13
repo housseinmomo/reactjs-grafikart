@@ -793,4 +793,22 @@ function TestUseMemo() {
         </div>
 }
 
+function TestUseRef(){
+
+    // c'est l'equivalenet du createRef avec les classes 
+    // permet de persister des element au sein de notre composant 
+    const input = React.useRef(null)
+
+    const handleClick = function() {
+        console.log(input.current)
+        console.log(input.current.value)
+    }
+
+    return <div className="container">
+        <input type="text" ref={input}/>
+        <button onClick={handleClick}>Recuperer la valeur</button>
+    </div>
+}
+
 ReactDOM.render(<TestUseMemo />, document.getElementById("TestUseMemo"))
+ReactDOM.render(<TestUseRef />, document.getElementById("TestUseRef"))
