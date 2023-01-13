@@ -643,9 +643,125 @@ function useIncrementTP3(initial){
     return [count, increment]
 }
 
+function useToggle(initial = true){
+    const [compteurVisible, setCompteur] = React.useState(initial)
+
+    const toggleCompteur = function(){
+        if(compteurVisible == true){setCompteur(false)}
+        else{setCompteur(true)}
+    }
+    return [compteurVisible, toggleCompteur]
+}
+
+function useAutoIncrement(initial = 0, step = 1) {
+
+    const [count , setCount] = React.useState(initial)
+
+    const increment = () => {
+        setCount(count => count + step)
+    }
+
+    React.useEffect(()=>{
+        const timer = window.setInterval(()=> {
+            increment()
+        }, 1000)
+
+        return function(){clearInterval(timer)}
+    }, [])
+
+    return [count , increment]
+}
+
 function CompteurTP3(){
-    const [count, increment] = useIncrementTP3(10)
+    const [count, increment] = useAutoIncrement(10, 1)
     return <button onClick={increment}>TP3: {count}</button>
 }
 
-ReactDOM.render(<CompteurTP3/>, document.getElementById("tp3"))
+function AppTP3(){
+    
+    const [compteurVisible,toggleCompteur] = useToggle()
+    console.log([compteurVisible, toggleCompteur])
+    return <div>
+        Afficher le compteur : <input type="checkbox" onChange={toggleCompteur} checked={compteurVisible}/>
+        <br/>
+        {compteurVisible ? <CompteurTP3 /> : ""} 
+        <br/>
+        <TodoList />
+        <PostTable />
+    </div>
+}
+
+function PostTable() {
+
+    const [items, loading] = useFetch("https://jsonplaceholder.typicode.com/comments?_limit=10")
+
+    if(loading == true){
+        return "Chargement ...."
+    }
+
+
+    return <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Contenu</th>
+            </tr>
+        </thead>
+        <tbody>
+            {items.map(item => <tr key={item.id}>
+                <td>{item.name}</td>
+                <td>{item.email}</td>
+                <td>{item.body}</td>
+            </tr>)}
+        </tbody>
+    </table>
+}
+
+function TodoList(){
+    
+    const [todos, loading] = useFetch("https://jsonplaceholder.typicode.com/todos?_limit=10")
+
+    if(loading == true){
+        return "Chargement ...."
+    }
+
+    return  <div>
+                <h3>TodosList</h3>
+                <ul>
+                    {todos.map(todo => <li key={todo.id}>{todo.title}</li>)}
+                </ul>
+            </div>
+}
+
+function useFetch(url){
+
+    const [state, setState] = React.useState({
+        items: [],
+        loading: true
+    })
+
+    React.useEffect(function(){
+        (async function (){
+            const response = await fetch(url)
+            const responseData = await response.json()
+
+            if(response.ok) {
+                setState({
+                    items: responseData,
+                    loading: false
+                })
+            } else{
+                setState({
+                    items: [],
+                    loading: false
+                })
+            }
+        })()
+
+    }, [])
+
+    return [state.items, state.loading]
+}
+
+ReactDOM.render(<AppTP3/>, document.getElementById("tp3"))
