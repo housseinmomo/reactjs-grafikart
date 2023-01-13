@@ -842,8 +842,8 @@ function TestUseLayoutEffect() {
 // ----------- useReducer --------------
 // c'est une alternatif au useState
 // on l'utilise lorsqu'on a des changement complexe a faire 
-// useReducer est souvent préférable à useState quand vous avez une logique d’état local complexe qui comprend plusieurs sous-valeurs, 
-// ou quand l’état suivant dépend de l’état précédent. 
+// useReducer est souvent préférable à useState quand vous avez une logique d’état local complexe qui 
+//comprend plusieurs sous-valeurs, ou quand l’état suivant dépend de l’état précédent. 
 
 function reducer(state, action) {
     switch(action.type) {
@@ -875,4 +875,97 @@ ReactDOM.render(<TestUseRef />, document.getElementById("TestUseRef"))
 ReactDOM.render(<TestUseLayoutEffect />, document.getElementById("TestUseLayoutEffect"))
 ReactDOM.render(<TestUseReducer />, document.getElementById("TestUseReducer"))
 
+// ------------- Les contextes ---------------------
+// Le systeme de contexte permet de faire passer des information au composant enfant facilement 
 
+const themes = {
+    dark: {
+        color: '#FFF',
+        background: '#000'
+    }, 
+    light: {
+        color: '#000',
+        background: '#FFF'
+    }
+}
+
+// creation d'un contexte 
+const ThemesConext = React.createContext({
+    theme: themes.light,
+    toggleTheme: () => {}
+})
+
+function SearchBarContext(){
+    return <div>
+            <input type="text" />
+            <ThemeButtonClass>Recherche</ThemeButtonClass>
+        </div>
+}
+
+function ToolbarContext(){
+    return <div>
+                <SearchBarContext/>
+                <ThemeButton>Deconnexion</ThemeButton>
+            </div>
+}
+
+function ThemeButton({children}) {
+    // return <ThemesConext.Consumer>
+    //     {value => { // value : valeur se trouvant dans le contexte (dark)
+    //         return <button style={value}>{children}</button>
+    //     }}
+    // </ThemesConext.Consumer>
+
+    // useContext est un hook qui va nous permettre une valeur qui se trouve dans un context 
+    const {theme} = React.useContext(ThemesConext)
+    return <button style={theme}>{children}</button>
+}
+
+class ThemeButtonClass extends React.Component {
+
+    
+    render() {
+        const {children} = this.props
+        // Recuperer la valeur qui se trouve dans le context quand on travaille avec des classes 
+        const {theme} = this.context
+        return <button style={theme}>{children}</button>
+    }
+}
+// Associer un context a notre composant (class)
+ThemeButtonClass.contextType = ThemesConext
+
+
+function SwitchTheme() {
+    const {theme, toggleTheme} = React.useContext(ThemesConext)
+    return <button onClick={toggleTheme}>Changer de theme : {theme}</button>
+}
+
+function TestContext(){
+
+    const [theme, setTheme] = React.useState('light')
+    
+    const toggleTheme = React.useCallback(
+        function () {
+            setTheme(theme => theme === 'light' ? 'dark' : 'light')
+            console.log(theme)
+        }, [])
+
+    const value = React.useMemo(function() {
+        return {
+            theme: theme === 'light' ? themes.light : themes.dark,
+            toggleTheme
+        }
+    }, [toggleTheme, theme])
+
+    console.log(value)
+
+    return <div>
+        {/* ThemesConext.Provider : nous permet de donner une nouvelle valeur au sein de notre context */}
+        <ThemesConext.Provider value={value}>
+            <ToolbarContext />
+            <SwitchTheme />
+        </ThemesConext.Provider>
+    </div>
+}
+
+ReactDOM.render(<TestContext />, document.getElementById("TestContext"))
