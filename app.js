@@ -839,8 +839,40 @@ function TestUseLayoutEffect() {
     </div>
 }
 
+// ----------- useReducer --------------
+// c'est une alternatif au useState
+// on l'utilise lorsqu'on a des changement complexe a faire 
+// useReducer est souvent préférable à useState quand vous avez une logique d’état local complexe qui comprend plusieurs sous-valeurs, 
+// ou quand l’état suivant dépend de l’état précédent. 
+
+function reducer(state, action) {
+    switch(action.type) {
+        case 'incrementer' :
+            return state + 1 
+        case 'decrementer' :
+            if(state <= 0){
+                return state
+            }
+            return state - 1
+        default: 
+            return new Error("l'action " + action.type + " est inconnue")
+    }
+}
+
+function TestUseReducer() {
+    const [count, dispatch] = React.useReducer(reducer, 0)
+
+    return <div>
+        Nombre : {count} 
+        <button onClick={() => dispatch({type: 'incrementer'})}>Incrementer</button>
+        <button onClick={() => dispatch({type: 'decrementer'})}>Decrementer</button>
+        
+        </div>
+}
+
 ReactDOM.render(<TestUseMemo />, document.getElementById("TestUseMemo"))
 ReactDOM.render(<TestUseRef />, document.getElementById("TestUseRef"))
 ReactDOM.render(<TestUseLayoutEffect />, document.getElementById("TestUseLayoutEffect"))
+ReactDOM.render(<TestUseReducer />, document.getElementById("TestUseReducer"))
 
 
