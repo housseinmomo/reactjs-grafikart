@@ -700,7 +700,7 @@ function PostTable() {
     }
 
 
-    return <table>
+    return <table className="table table-striped">
         <thead>
             <tr>
                 <th>Nom</th>
@@ -728,9 +728,9 @@ function TodoList(){
 
     return  <div>
                 <h3>TodosList</h3>
-                <ul>
+                <ol>
                     {todos.map(todo => <li key={todo.id}>{todo.title}</li>)}
-                </ul>
+                </ol>
             </div>
 }
 
@@ -764,4 +764,33 @@ function useFetch(url){
     return [state.items, state.loading]
 }
 
+
 ReactDOM.render(<AppTP3/>, document.getElementById("tp3"))
+
+
+// creation d'un composant pure qui va etre re-rendu a chaque fois qu'un etat ou une propriete change
+const PureButton = React.memo(function ({onClick}) {
+    console.log("render")
+    return <button onClick={onClick}>Mon Button</button>
+})
+
+function TestUseMemo() {
+
+    const [count, setCount] = React.useState(0)
+
+    // react va regenerer cette fonction a chaque rendu
+    // ce qui va declencher le rendu de notre composant pure 
+    // useMemo va nous permettre de memoriser une valeur  
+    // useCallback fait la meme chose que useMemo
+    // avec une syntaxe simplifier 
+    const handleClick = React.useCallback(function(){
+        alert("Bonjour")
+    }, [])
+
+    return <div className="container">
+            <PureButton onClick={handleClick}></PureButton>
+            <button onClick={() => {setCount(count => count + 1)}}>Incrementer {count}</button>
+        </div>
+}
+
+ReactDOM.render(<TestUseMemo />, document.getElementById("TestUseMemo"))
