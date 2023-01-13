@@ -937,7 +937,8 @@ ThemeButtonClass.contextType = ThemesConext
 
 function SwitchTheme() {
     const {theme, toggleTheme} = React.useContext(ThemesConext)
-    return <button onClick={toggleTheme}>Changer de theme : {theme}</button>
+    console.log(theme.color)
+    return <button onClick={toggleTheme}>Changer de theme : {theme.color === "#000" ? "light" : "dark"}</button>
 }
 
 function TestContext(){
@@ -969,3 +970,63 @@ function TestContext(){
 }
 
 ReactDOM.render(<TestContext />, document.getElementById("TestContext"))
+
+
+// ---------------------- TP4 : Contexte -------------------------
+
+function TP4 () {
+
+    const handleSubmit = React.useCallback(function(value){
+        console.log(value)
+    }, [])
+
+    const FormContextContext = React.createContext({})
+
+    function FormContext({defaultValue, onSubmit, children}){
+
+        const [data, setData] = React.useState(defaultValue)
+
+        const change = React.useCallback(function(name, value){
+            setData(d => Object.assign({}, d, {[name]: value}))
+        })
+
+        const value = React.memo(function(){
+            return Object.assign({}, data , {change: change})
+        },[data,change])
+
+        return <FormContextContext.Provider value={value}> {/* On donne la valeur par defaut {John, Doe} au niveau de notre context qui etait vide */}
+                    <form onSubmit={onSubmit}>
+                        {children} {/* ici on fait reference au element qui vont se trouver au sein du formulaire */}
+                    </form>
+                    {JSON.stringify(value)}
+                </FormContextContext.Provider>
+
+                
+
+    }
+
+    function FormField({name, children}){
+        const data = React.useContext(FormContextContext)
+
+        const handleChange = React.useCallback(function(e){
+            data.change(e.target.name, e.target.value)
+        },[data, change])
+
+        return <div className="form-group">
+            <label htmlFor={name}>{children}</label>
+            <input type="text" name={name} id={name} className="form-control" value={data[name] || ''} onChange={handleChange}/>
+        </div>
+    }
+    
+    return <div className="container">
+            <FormContext defaultValue={{name: "Doe", firstname: "John"}} onSubmit={handleSubmit}>
+            {/* ce sont les childrens du formulaire  */}
+            <FormField name="name">Nom</FormField>
+            <FormField name="firstname">Prenom</FormField>
+            <PrimaryButton>Envoyer</PrimaryButton>
+            {/* ce sont les childrens du formulaire  */}
+    </FormContext>
+    </div>
+}
+
+ReactDOM.render(<TP4 /> , document.getElementById("tp4"))
