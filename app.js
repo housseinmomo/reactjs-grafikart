@@ -1127,13 +1127,35 @@ function TestException() {
     </div>
 }
 
-function Double ({nombre}) {
-    return <div>
-        Le double de {nombre} est : {nombre * 2}
-    </div>
+
+
+
+Presentation.propTypes = {
+    fullName: PropTypes.string.isRequired,
+    age: PropTypes.number.isRequired,
+    email: PropTypes.string.isRequired,
+    isMale: PropTypes.bool.isRequired,
+    notes: PropTypes.array.isRequired
+}
+
+function Presentation ({fullName, age, email, isMale, notes}) {
+    return `Nom & Prenom ${fullName} | Age ${age} | Email ${email} | isMale : ${isMale} | notes ${notes}`
 }
 
 ReactDOM.render(<TestException /> , document.getElementById("exception"))
+
+ReactDOM.render(<Presentation fullName="Abdoulfatah Houssein" age={23} email="smrobla34@gmail.com" isMale={true} notes={[12, 10, 11]}/> , document.getElementById("presentation"))
+
+
+// Prop-types : va nous permettre de valider les proprieter de nos composant  
+// Nous permet de detecter les bugs tres tot / nous aurons des erreurs plus claires
+// On specifiant le type de ces dernier : number , func , isRequired 
+// Si les bons propiete ne sont pas passer, alors des erreurs vont s'afficher au niveau de la console 
+// La validation se fait a l'execution 
+// Pour remedier a ce systme de validation qui peux couter en performace, on peux utiliser typescript & flow 
+// Ils nous permettre de faire du js typee (chaque variable aura un type)
+
+
 
 
 
