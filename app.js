@@ -974,15 +974,9 @@ ReactDOM.render(<TestContext />, document.getElementById("TestContext"))
 
 // ---------------------- TP4 : Contexte -------------------------
 
-function TP4 () {
+    const FormContext = React.createContext({})
 
-    const handleSubmit = React.useCallback(function(value){
-        console.log(value)
-    }, [])
-
-    const FormContextContext = React.createContext({})
-
-    function FormContext({defaultValue, onSubmit, children}){
+    function FormWithContext({defaultValue, onSubmit, children}){
 
         const [data, setData] = React.useState(defaultValue)
 
@@ -990,27 +984,36 @@ function TP4 () {
             setData(d => Object.assign({}, d, {[name]: value}))
         })
 
-        const value = React.memo(function(){
+        // Ici nous allons avoir un objet : [data] & un methode [change] qui nous permettre de modifier l'objet data
+        const value = React.useMemo(function(){
             return Object.assign({}, data , {change: change})
         },[data,change])
 
-        return <FormContextContext.Provider value={value}> {/* On donne la valeur par defaut {John, Doe} au niveau de notre context qui etait vide */}
-                    <form onSubmit={onSubmit}>
+        const handleSubmit = React.useCallback(function (e) {
+            e.preventDefault()
+            onSubmit(value)
+        }, [onSubmit, value])
+
+        return <FormContext.Provider value={value}> {/* On donne la valeur par defaut {John, Doe} au niveau de notre context qui etait vide & la methode change() */}
+                    <form onSubmit={handleSubmit}>
                         {children} {/* ici on fait reference au element qui vont se trouver au sein du formulaire */}
                     </form>
                     {JSON.stringify(value)}
-                </FormContextContext.Provider>
-
-                
+                </FormContext.Provider>
 
     }
 
     function FormField({name, children}){
-        const data = React.useContext(FormContextContext)
+
+        // on recupere l'objet se trouvant dans notre contexte :
+            // - l'objet [data] + la fonction change qui va nous permettre de modifier l'objet 
+        const data = React.useContext(FormContext)
+
+        console.log(data)
 
         const handleChange = React.useCallback(function(e){
             data.change(e.target.name, e.target.value)
-        },[data, change])
+        },[data.change])
 
         return <div className="form-group">
             <label htmlFor={name}>{children}</label>
@@ -1018,15 +1021,23 @@ function TP4 () {
         </div>
     }
     
-    return <div className="container">
-            <FormContext defaultValue={{name: "Doe", firstname: "John"}} onSubmit={handleSubmit}>
-            {/* ce sont les childrens du formulaire  */}
-            <FormField name="name">Nom</FormField>
-            <FormField name="firstname">Prenom</FormField>
-            <PrimaryButton>Envoyer</PrimaryButton>
-            {/* ce sont les childrens du formulaire  */}
-    </FormContext>
-    </div>
-}
+
+    function TP4 () {
+
+        const handleSubmit = React.useCallback(function(value){
+            console.log(value)
+        }, [])
+
+        return <div className="container">
+                    <FormWithContext defaultValue={{name: "Doe", firstname: "John"}} onSubmit={handleSubmit}>
+                        {/* ce sont les childrens du formulaire  */}
+                        <FormField name="name">Nom</FormField>
+                        <FormField name="firstname">Prenom</FormField>
+                        <PrimaryButton>Envoyer</PrimaryButton>
+                        {/* ce sont les childrens du formulaire  */}
+                    </FormWithContext>
+            </div>
+    }
+
 
 ReactDOM.render(<TP4 /> , document.getElementById("tp4"))
