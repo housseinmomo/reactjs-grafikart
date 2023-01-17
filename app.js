@@ -1041,3 +1041,57 @@ ReactDOM.render(<TestContext />, document.getElementById("TestContext"))
 
 
 ReactDOM.render(<TP4 /> , document.getElementById("tp4"))
+
+
+// ------------------- Les portails -------------------------
+
+/**
+ * Les portails fournissent une excellente solution pour afficher des composants enfants dans un nœud 
+ * DOM qui existe en dehors de la hiérarchie DOM du composant parent.
+ */
+
+// -------------------------------- TP 5 : Systeme d'onglet ----------------------
+
+function Onglet () {
+    return <Tabs>
+        <Tab title="onglet 1">Onglet 1 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, cum. Laborum repudiandae porro nostrum deserunt architecto sit, praesentium unde saepe nisi ipsa tempora. Ipsa tenetur esse debitis libero magnam suscipit.</Tab>
+        <Tab title="onglet 2">Onglet 2 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, cum. Laborum repudiandae porro nostrum deserunt architecto sit, praesentium unde saepe nisi ipsa tempora. Ipsa tenetur esse debitis libero magnam suscipit.</Tab>
+        <Tab title="onglet 3">Onglet 3 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, cum. Laborum repudiandae porro nostrum deserunt architecto sit, praesentium unde saepe nisi ipsa tempora. Ipsa tenetur esse debitis libero magnam suscipit.</Tab>
+        <Tab title="onglet 4">Onglet 4 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, cum. Laborum repudiandae porro nostrum deserunt architecto sit, praesentium unde saepe nisi ipsa tempora. Ipsa tenetur esse debitis libero magnam suscipit.</Tab>
+    </Tabs>
+}
+
+function Tabs({children}){
+
+    const childrenArray = React.Children.toArray(children)
+    console.log(childrenArray)
+
+    // On selection le premier element de l'onglet comme etant la premier qui sera afficher 
+    const [current, setCurrent] = React.useState(childrenArray[0].key)
+    console.log("Onglet : " + current)
+
+    const newChildren = childrenArray.map(child => {
+        return React.cloneElement(child, {selected: child.key === current})
+    })
+
+    return <div>
+        <nav>
+            {childrenArray.map( child => {
+                return <button  onClick={() => setCurrent(child.key)} key={child.key} > {/** si on clique sur l'onglet; current va etre modifier */}
+                    {child.props.title} 
+                </button>
+            })}
+        </nav>
+        <section>
+            {newChildren}
+        </section>
+    </div>
+}
+
+function Tab({children, selected}) {
+    return <div hidden={!selected}>
+        {children}
+    </div>
+}
+
+ReactDOM.render(<Onglet />, document.getElementById("tp5"))
