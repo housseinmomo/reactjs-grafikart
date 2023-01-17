@@ -1095,3 +1095,45 @@ function Tab({children, selected}) {
 }
 
 ReactDOM.render(<Onglet />, document.getElementById("tp5"))
+
+// ---------------- Capturez une exception -----------------------
+
+// Si nos exceptions ne sont pas capturer lors du rendu d'un composant, alors ils vont remonter vers le composant parent et ainsi de suite jusqu'a la racine  
+// Dans ce cas l'application sera demonter 
+// Pour capturer une error, nous allons utiliser un composant-classe ErrorBoundary avec une methode componentDidCatch(error, errorInfo)
+
+
+class ErrorBoundary extends React.Component {
+
+
+    componentDidCatch(error, errorInfo){
+        console.log(error, errorInfo)
+    }
+
+    render() {
+        this.props.children
+    }
+}
+
+function TestException() {
+
+    // On a capturer l'exception
+    <ErrorBoundary >
+        throw new Error()
+    </ErrorBoundary>
+
+    return <div>
+        Capture Test Exception 
+    </div>
+}
+
+function Double ({nombre}) {
+    return <div>
+        Le double de {nombre} est : {nombre * 2}
+    </div>
+}
+
+ReactDOM.render(<TestException /> , document.getElementById("exception"))
+
+
+
