@@ -1172,29 +1172,27 @@ ReactDOM.render(<Presentation fullName="Abdoulfatah Houssein" age={23} email="sm
 // On peux tester composant par composant de maniere isoler : verification de la structure & des evenements 
 // On peux tester l'ensemble de l'application (l'ensemble des composant) : monter l'application et tester 
 
-function Modal ({onClose, children, title}) {
+function Modal ({handleClick, children, title}) {
 
-    return ReactDOM.createPortal(<>
-        <div className="modal fade show" role="dialog" style={ {display: "block"} }>
-            <div className="modal-dialog modal-x1">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">{title}</h5>
-                        <button type="button" className="close" aria-label="Fermer">
-                            <span aria-hidden="true">x</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        {children}
-                    </div>
+    return (
+            <div className="container">
+                <div className="alert alert-danger">
+                    <h3>{title}</h3>
+                    {children}
+                    <button type="button" className="btn btn-warning" onClick={handleClick}> Declencher une alert</button>
                 </div>
             </div>
-        </div>
-    </>, document.body)
+    )
 }
 
 Modal.propTypes = {
-    onClose: PropTypes.func.isRequired,
+    handleClick: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired
 }
+
+ReactDOM.render(<Modal  title="Lettre a la republique" 
+                        handleClick={() => {alert("Votre president vous salut")}}>
+                        Bonjour tout le monde</Modal>, 
+                        document.getElementById("modal")
+                )

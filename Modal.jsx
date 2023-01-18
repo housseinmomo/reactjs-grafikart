@@ -10,22 +10,21 @@ import { render } from 'react-dom'
 // On peux tester composant par composant de maniere isoler : verification de la structure & des evenements 
 // On peux tester l'ensemble de l'application (l'ensemble des composant) : monter l'application et tester 
 
-export function Modal ( {title, children, handleClick} ) {
+export function Modal ({handleClick, children, title}) {
 
-
-    render(<>
-    <div className="container">
-       <div className="alert alert-primary">
-            <h2>{title}</h2>
-            {children}
-            <button type="button" className="btn btn-warning" onClick={handleClick}>Declencher un evenement</button>
-       </div>
-    </div> </>, document.getElementById("modal"))
-    
+    return (
+            <div className="container">
+                <div className="alert alert-danger">
+                    <h3>{title}</h3>
+                    {children}
+                    <button type="button" className="btn btn-warning" onClick={handleClick}> Declencher une alert</button>
+                </div>
+            </div>
+    )
 }
 
 Modal.propTypes = {
-    onClose: PropTypes.func.isRequired,
+    handleClick: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired
 }

@@ -1,5 +1,5 @@
 import {Modal} from "./Modal"
-import {render} from "react-dom"
+import {render} from "@testing-library/react"
 import React from "react"
 
 
