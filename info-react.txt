@@ -118,6 +118,21 @@ Les Hooks sont une serie de fonctions(qui commence par use) qui nous permettre d
 
 
 
+- librairie d'interface : ils nous permettre d'utiliser des composant deja pret 
+    - chakra 
+    - Material UI 
+
+- librairie de gestion d'etat complexe: c'est une alternatif au contexte React 
+    - redux 
+    - recoll 
+
+- librairie de routage / naviguer entre les pages :
+    - react router 
+    - reach router
+
+- Ils vont nous permettre d'utiliser react a la fois pour le frontend & et pour le backend (rendu plus rapide)
+    - nextJS 
+    - gatsbyJS 
 
 
 
