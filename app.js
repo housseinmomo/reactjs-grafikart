@@ -1123,11 +1123,12 @@ function TestException() {
     </ErrorBoundary>
 
     return <div>
-        Capture Test Exception 
+        Capture Test Exception avec le composant-classe ErrorBoundary
     </div>
 }
 
 
+// ------------------- Les PropTypes -----------------------
 
 
 Presentation.propTypes = {
@@ -1139,7 +1140,15 @@ Presentation.propTypes = {
 }
 
 function Presentation ({fullName, age, email, isMale, notes}) {
-    return `Nom & Prenom ${fullName} | Age ${age} | Email ${email} | isMale : ${isMale} | notes ${notes}`
+    const person = {
+        "fullName": fullName, 
+        "age": age,
+        "email": email,
+        "isMale": isMale,
+        "notes": notes
+    }
+    
+    return 'Objet Person : ' + JSON.stringify(person)
 }
 
 ReactDOM.render(<TestException /> , document.getElementById("exception"))
@@ -1157,5 +1166,35 @@ ReactDOM.render(<Presentation fullName="Abdoulfatah Houssein" age={23} email="sm
 
 
 
+// -------------------- Les testes -------------------------
 
 
+// On peux tester composant par composant de maniere isoler : verification de la structure & des evenements 
+// On peux tester l'ensemble de l'application (l'ensemble des composant) : monter l'application et tester 
+
+function Modal ({onClose, children, title}) {
+
+    return ReactDOM.createPortal(<>
+        <div className="modal fade show" role="dialog" style={ {display: "block"} }>
+            <div className="modal-dialog modal-x1">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">{title}</h5>
+                        <button type="button" className="close" aria-label="Fermer">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        {children}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </>, document.body)
+}
+
+Modal.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired
+}
